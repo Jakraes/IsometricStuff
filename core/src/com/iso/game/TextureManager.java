@@ -8,8 +8,8 @@ import com.badlogic.gdx.utils.Array;
 public class TextureManager {
     private static final int TEXTUREHEIGHT = 16;
     private static final int TEXTUREWIDTH = 16;
-    private static final int ROWS = 1;
-    private static final int COLS = 7;
+    private static final int ROWS = 2;
+    private static final int COLS = 8;
     private static TextureManager instance;
 
     private static Texture tex;
