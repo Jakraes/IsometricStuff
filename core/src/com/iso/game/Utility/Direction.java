@@ -1,6 +1,4 @@
-package com.iso.game;
-
-import com.badlogic.gdx.math.Vector3;
+package com.iso.game.Utility;
 
 public enum Direction {
     UP(new Vector3(0, 0, 1)), DOWN(new Vector3(0, 0, -1)),
@@ -13,7 +11,7 @@ public enum Direction {
         this.vector = vector;
     }
 
-    public Vector3 asVector() {
+    public com.iso.game.Utility.Vector3 asVector() {
         return vector;
     }
 }

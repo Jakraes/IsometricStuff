@@ -1,7 +1,7 @@
 package com.iso.game.Entities;
 
 
-import com.badlogic.gdx.math.Vector3;
+import com.iso.game.Utility.Vector3;
 
 public class EntityPlayer extends AbstractEntity {
 

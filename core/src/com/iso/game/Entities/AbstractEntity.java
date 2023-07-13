@@ -1,10 +1,10 @@
 package com.iso.game.Entities;
 
-import com.badlogic.gdx.math.Vector3;
-import com.iso.game.Direction;
 import com.iso.game.Map.AbstractMap;
 import com.iso.game.Tiles.AbstractTile;
 import com.iso.game.Tiles.TileAir;
+import com.iso.game.Utility.Direction;
+import com.iso.game.Utility.Vector3;
 
 public abstract class AbstractEntity extends AbstractTile {
     Vector3 position;
@@ -32,21 +32,21 @@ public abstract class AbstractEntity extends AbstractTile {
     public void move(Direction direction, AbstractMap map) {
         Vector3 newPos = new Vector3(position).add(direction.asVector());
 
-        map.setTile((int) position.x, (int) position.y, (int) position.z, new TileAir());
+        map.setTile(position.x, position.y, position.z, new TileAir());
 
-        AbstractTile nextTile = map.getTile((int) newPos.x, (int) newPos.y, (int) newPos.z);
+        AbstractTile nextTile = map.getTile(newPos.x, newPos.y, newPos.z);
         if (nextTile.isSolid()) {
-            nextTile = map.getTile((int) newPos.x, (int) newPos.y, (int) newPos.z + 1);
-            if (!nextTile.isSolid()) setPosition((int) newPos.x, (int) newPos.y, (int) newPos.z + 1);
+            nextTile = map.getTile(newPos.x, newPos.y, newPos.z + 1);
+            if (!nextTile.isSolid()) setPosition(newPos.x, newPos.y, newPos.z + 1);
         } else {
-            nextTile = map.getTile((int) newPos.x, (int) newPos.y, (int) newPos.z - 1);
+            nextTile = map.getTile(newPos.x, newPos.y, newPos.z - 1);
             if (nextTile.isSolid()) setPosition(newPos);
             else {
-                nextTile = map.getTile((int) newPos.x, (int) newPos.y, (int) newPos.z - 2);
-                if (nextTile.isSolid()) setPosition((int) newPos.x, (int) newPos.y, (int) newPos.z - 1);
+                nextTile = map.getTile(newPos.x, newPos.y, newPos.z - 2);
+                if (nextTile.isSolid()) setPosition(newPos.x, newPos.y, newPos.z - 1);
             }
         }
 
-        map.setTile((int) position.x, (int) position.y, (int) position.z, this);
+        map.setTile(position.x, position.y, position.z, this);
     }
 }

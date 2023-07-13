@@ -1,4 +1,4 @@
-package com.iso.game;
+package com.iso.game.Utility;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;

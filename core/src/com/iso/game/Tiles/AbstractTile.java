@@ -1,7 +1,7 @@
 package com.iso.game.Tiles;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.iso.game.TextureManager;
+import com.iso.game.Utility.TextureManager;
 
 public class AbstractTile {
     private final int index;

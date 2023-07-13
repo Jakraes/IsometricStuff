@@ -1,8 +1,8 @@
 package com.iso.game.Map;
 
 import com.badlogic.gdx.math.MathUtils;
-import com.iso.game.SimplexNoise;
 import com.iso.game.Tiles.*;
+import com.iso.game.Utility.SimplexNoise;
 
 public class WorldMap extends AbstractMap {
     public final int CHUNK_WIDTH = 16, CHUNK_DEPTH = 16, CHUNK_HEIGHT = 32;
