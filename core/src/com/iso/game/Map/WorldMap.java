@@ -12,6 +12,7 @@ public class WorldMap extends AbstractMap {
         super(seed, step);
     }
 
+    // TODO the code is a bit ugly and unorganized, I'm sure it can get smaller and more efficient
     @Override
     public Chunk generateChunk(int x, int y) {
         Chunk result = new Chunk(CHUNK_WIDTH, CHUNK_DEPTH, CHUNK_HEIGHT);
@@ -44,9 +45,10 @@ public class WorldMap extends AbstractMap {
             for (int xTemp = 0; xTemp < CHUNK_WIDTH; xTemp++) {
                 for (int zTemp = 0; zTemp < CHUNK_HEIGHT; zTemp++) {
                     if (result.getTile(xTemp, yTemp, zTemp) instanceof TileGrass && zTemp < CHUNK_HEIGHT - 1 && zTemp > WATER_HEIGHT + 1) {
-                        int treeX = (getSeed() + x * 33 + y + xTemp);
-                        int treeY = (getSeed() + y * 33 + x + yTemp);
-                        if ((SimplexNoise.noise(treeX, treeY) + 1) / 2 > 0.7) result.setTile(xTemp, yTemp, zTemp + 1, new TileTree());
+                        int treeX = getSeed() * 2 + x * 33 + xTemp + y;
+                        int treeY = getSeed() * 2 + y * 33 + yTemp + x;
+                        if ((SimplexNoise.noise(treeX, treeY) + 1) / 2 > 0.7)
+                            result.setTile(xTemp, yTemp, zTemp + 1, new TileTree());
                         break;
                     }
                 }

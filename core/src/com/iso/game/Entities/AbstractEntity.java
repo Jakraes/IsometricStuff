@@ -1,6 +1,5 @@
 package com.iso.game.Entities;
 
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.iso.game.Direction;
 import com.iso.game.Map.AbstractMap;
@@ -39,8 +38,7 @@ public abstract class AbstractEntity extends AbstractTile {
         if (nextTile.isSolid()) {
             nextTile = map.getTile((int) newPos.x, (int) newPos.y, (int) newPos.z + 1);
             if (!nextTile.isSolid()) setPosition((int) newPos.x, (int) newPos.y, (int) newPos.z + 1);
-        }
-        else {
+        } else {
             nextTile = map.getTile((int) newPos.x, (int) newPos.y, (int) newPos.z - 1);
             if (nextTile.isSolid()) setPosition(newPos);
             else {
@@ -48,7 +46,6 @@ public abstract class AbstractEntity extends AbstractTile {
                 if (nextTile.isSolid()) setPosition((int) newPos.x, (int) newPos.y, (int) newPos.z - 1);
             }
         }
-
 
         map.setTile((int) position.x, (int) position.y, (int) position.z, this);
     }

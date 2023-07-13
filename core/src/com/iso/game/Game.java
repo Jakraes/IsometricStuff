@@ -31,7 +31,7 @@ public class Game extends ApplicationAdapter {
         boolean done = false;
         for (int y = 0; y < map.CHUNK_DEPTH; y++) {
             for (int x = 0; x < map.CHUNK_WIDTH; x++) {
-                for (int z = map.CHUNK_HEIGHT - 1; z >= 0 ; z--) {
+                for (int z = map.CHUNK_HEIGHT - 1; z >= 0; z--) {
                     if (map.getChunk(0, 0).getTile(x, y, z).isSolid()) {
                         player = new EntityPlayer(new Vector3(x, y, z + 1));
                         done = true;
@@ -98,6 +98,6 @@ public class Game extends ApplicationAdapter {
     @Override
     public void dispose() {
         batch.dispose();
-		TextureManager.dispose();
+        TextureManager.dispose();
     }
 }

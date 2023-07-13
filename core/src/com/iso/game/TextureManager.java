@@ -31,12 +31,12 @@ public class TextureManager {
         return instance;
     }
 
-    public TextureRegion getTexture(int index) {
-        return textures.get(index);
-    }
-
     public static void dispose() {
         if (instance == null) return;
         tex.dispose();
+    }
+
+    public TextureRegion getTexture(int index) {
+        return textures.get(index);
     }
 }
