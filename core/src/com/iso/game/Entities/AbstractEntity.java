@@ -3,7 +3,6 @@ package com.iso.game.Entities;
 import com.iso.game.Map.AbstractMap;
 import com.iso.game.Tiles.AbstractTile;
 import com.iso.game.Tiles.TileAir;
-import com.iso.game.Utility.Direction;
 import com.iso.game.Utility.Vector3;
 
 public abstract class AbstractEntity extends AbstractTile {
@@ -28,9 +27,9 @@ public abstract class AbstractEntity extends AbstractTile {
         position.z = z;
     }
 
-    // TODO NEEDS POLISHING, A LOT OF IT
-    public void move(Direction direction, AbstractMap map) {
-        Vector3 newPos = new Vector3(position).add(direction.asVector());
+    // TODO needs some polishing I think
+    public void move(Vector3 direction, AbstractMap map) {
+        Vector3 newPos = new Vector3(position).add(direction);
 
         map.setTile(position.x, position.y, position.z, new TileAir());
 

@@ -27,6 +27,10 @@ public class Vector3 {
         return this.set(x + v.x, y + v.y, z + v.z);
     }
 
+    public Vector3 toOne() {
+        return this.set(Utils.intSignum(x), Utils.intSignum(y), Utils.intSignum(z));
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof Vector3)) return false;

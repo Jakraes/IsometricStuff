@@ -1,12 +1,12 @@
 package com.iso.game.Map;
 
-import com.badlogic.gdx.math.MathUtils;
 import com.iso.game.Tiles.*;
 import com.iso.game.Utility.SimplexNoise;
 
 public class WorldMap extends AbstractMap {
     public final int CHUNK_WIDTH = 16, CHUNK_DEPTH = 16, CHUNK_HEIGHT = 32;
     private final int WATER_HEIGHT = CHUNK_HEIGHT / 4;
+    private final int OCTAVES = 3;
 
     public WorldMap(int seed, float step) {
         super(seed, step);
@@ -19,7 +19,8 @@ public class WorldMap extends AbstractMap {
 
         for (int yTemp = 0; yTemp < CHUNK_DEPTH; yTemp++) {
             for (int xTemp = 0; xTemp < CHUNK_WIDTH; xTemp++) {
-                int height = MathUtils.clamp((int) ((SimplexNoise.noise(x * CHUNK_WIDTH * getStep() + xTemp * getStep() + getSeed(), y * CHUNK_DEPTH * getStep() + yTemp * getStep() + getSeed()) + 1) / 2 * CHUNK_HEIGHT) - 1, 0, CHUNK_HEIGHT - 2);
+                double d = (SimplexNoise.noiseWithOctaves(x * CHUNK_WIDTH + xTemp, y * CHUNK_DEPTH + yTemp, getSeed(), OCTAVES, getStep()) + 1) / 2 * (CHUNK_HEIGHT - 2);
+                int height = (int) d;
                 result.setTile(xTemp, yTemp, height, new TileGrass());
                 for (int z = 0; z < height; z++) {
                     result.setTile(xTemp, yTemp, z, new TileDirt());
@@ -45,10 +46,12 @@ public class WorldMap extends AbstractMap {
             for (int xTemp = 0; xTemp < CHUNK_WIDTH; xTemp++) {
                 for (int zTemp = 0; zTemp < CHUNK_HEIGHT; zTemp++) {
                     if (result.getTile(xTemp, yTemp, zTemp) instanceof TileGrass && zTemp < CHUNK_HEIGHT - 1 && zTemp > WATER_HEIGHT + 1) {
-                        int treeX = getSeed() * 2 + x * 33 + xTemp + y;
-                        int treeY = getSeed() * 2 + y * 33 + yTemp + x;
-                        if ((SimplexNoise.noise(treeX, treeY) + 1) / 2 > 0.7)
-                            result.setTile(xTemp, yTemp, zTemp + 1, new TileTree());
+                        double d = (SimplexNoise.noiseWithOctaves(x * CHUNK_WIDTH + xTemp, y * CHUNK_DEPTH + yTemp, getSeed() * 2, OCTAVES, getStep()) + 1) / 2;
+                        if (d > 0.4) {
+                            d = ((SimplexNoise.noiseWithOctaves(x * CHUNK_WIDTH + xTemp, y * CHUNK_DEPTH + yTemp, getSeed() * 2, OCTAVES, 1.0f) + 1) / 2);
+                            if (d > 0.7)
+                                result.setTile(xTemp, yTemp, zTemp + 1, new TileTree());
+                        }
                         break;
                     }
                 }

@@ -6,7 +6,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.iso.game.Entities.EntityPlayer;
-import com.iso.game.Map.Chunk;
 import com.iso.game.Map.WorldMap;
 import com.iso.game.Tiles.AbstractTile;
 import com.iso.game.Tiles.TileAir;
@@ -16,9 +15,8 @@ import com.iso.game.Utility.Vector3;
 
 public class Game extends ApplicationAdapter {
     SpriteBatch batch;
-    int posX = 0, posY = 0;
     int zoom = 1;
-    int radius = 2;
+    int radius = 3;
     int textureWidth = 16, textureHeight = 16;
 
 
@@ -28,7 +26,7 @@ public class Game extends ApplicationAdapter {
     @Override
     public void create() {
         batch = new SpriteBatch();
-        map = new WorldMap(0, 0.01f);
+        map = new WorldMap(10, 0.005f);
 
         boolean done = false;
         for (int y = 0; y < map.CHUNK_DEPTH; y++) {
@@ -53,19 +51,36 @@ public class Game extends ApplicationAdapter {
     public void render() {
         ScreenUtils.clear(0.792f, 0.902f, 0.961f, 1);
 
-        posX = player.getPosition().x / map.CHUNK_WIDTH;
-        posY = player.getPosition().y / map.CHUNK_DEPTH;
+        Vector3 d = new Vector3(0, 0, 0);
 
-        System.out.println(posX + " " + posY);
+        if (Gdx.input.isKeyPressed(Input.Keys.W)) d.add(Direction.UP.asVector());
+        if (Gdx.input.isKeyPressed(Input.Keys.S)) d.add(Direction.DOWN.asVector());
+        if (Gdx.input.isKeyPressed(Input.Keys.A)) d.add(Direction.LEFT.asVector());
+        if (Gdx.input.isKeyPressed(Input.Keys.D)) d.add(Direction.RIGHT.asVector());
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.W)) player.move(Direction.FRONT, map);
-        if (Gdx.input.isKeyJustPressed(Input.Keys.S)) player.move(Direction.BACK, map);
-        if (Gdx.input.isKeyJustPressed(Input.Keys.A)) player.move(Direction.LEFT, map);
-        if (Gdx.input.isKeyJustPressed(Input.Keys.D)) player.move(Direction.RIGHT, map);
+        player.move(d.toOne(), map);
 
         //double time = System.currentTimeMillis();
         batch.begin();
 
+        for (int y = radius * map.CHUNK_DEPTH + 1; y >= -radius * map.CHUNK_DEPTH; y--) {
+            for (int x = -radius * map.CHUNK_WIDTH; x <= radius * map.CHUNK_WIDTH + 1; x++) {
+                for (int z = 0; z < map.CHUNK_HEIGHT; z++) {
+                    int drawX = (x + y) * textureWidth * zoom / 2;
+                    int drawY = (y - x + z) * textureHeight * zoom / 4;
+
+                    if (drawX < -700 || drawX > 600) continue;
+                    if (drawY < -400 || drawY > 600) continue;
+
+                    AbstractTile t = map.getTile(player.getPosition().x + x, player.getPosition().y + y, z);
+                    if (t instanceof TileAir) continue;
+
+                    batch.draw(t.getTexture(), drawX + 600, drawY + 300, textureWidth * zoom, textureHeight * zoom);
+                }
+            }
+        }
+
+        /*
         Chunk[][] cs = new Chunk[radius * 2 + 1][radius * 2 + 1];
 
         for (int y = -radius; y <= radius; y++) {
@@ -92,10 +107,11 @@ public class Game extends ApplicationAdapter {
                     AbstractTile t = c.getTile(tileX, tileY, tileZ);
                     if (t instanceof TileAir) continue;
 
-                    batch.draw(t.getTexture(), destX, destY + 150, textureWidth * zoom, textureHeight * zoom);
+                    batch.draw(t.getTexture(), destX , destY + 150, textureWidth * zoom, textureHeight * zoom);
                 }
             }
         }
+        */
 
         batch.end();
         //System.out.println(System.currentTimeMillis() - time);

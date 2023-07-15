@@ -1,9 +1,8 @@
 package com.iso.game.Utility;
 
 public enum Direction {
-    UP(new Vector3(0, 0, 1)), DOWN(new Vector3(0, 0, -1)),
-    LEFT(new Vector3(-1, 0, 0)), RIGHT(new Vector3(1, 0, 0)),
-    BACK(new Vector3(0, -1, 0)), FRONT(new Vector3(0, 1, 0));
+    UP(new Vector3(-1, 1, 0)), DOWN(new Vector3(1, -1, 0)),
+    LEFT(new Vector3(-1, -1, 0)), RIGHT(new Vector3(1, 1, 0));
 
     private final Vector3 vector;
 
@@ -11,7 +10,7 @@ public enum Direction {
         this.vector = vector;
     }
 
-    public com.iso.game.Utility.Vector3 asVector() {
+    public Vector3 asVector() {
         return vector;
     }
 }

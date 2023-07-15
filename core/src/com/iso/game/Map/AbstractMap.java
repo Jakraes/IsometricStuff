@@ -8,11 +8,11 @@ import java.util.Map;
 
 public abstract class AbstractMap {
     public final int CHUNK_WIDTH = 16, CHUNK_DEPTH = 16, CHUNK_HEIGHT = 32;
-    private final int seed;
+    private final long seed;
     private final float step;
     private final Map<Vector2, Chunk> chunks;
 
-    public AbstractMap(int seed, float step) {
+    public AbstractMap(long seed, float step) {
         this.seed = seed;
         this.step = step;
         chunks = new HashMap<>();
@@ -46,7 +46,7 @@ public abstract class AbstractMap {
         getChunk(chunkX, chunkY).setTile(tileX, tileY, z, t);
     }
 
-    public int getSeed() {
+    public long getSeed() {
         return seed;
     }
 
